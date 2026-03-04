@@ -63,7 +63,7 @@ export default function Hero() {
           <div className="relative h-[400px] md:h-[500px]">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl blur-2xl"></div>
             <Image
-              src="/engineer-stabilizer.jpg"
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Hero_Image-7YasECqnsK3T3MYijluMKvyned15YE.png"
               alt="Engineer with servo-controlled stabilizer machine"
               fill
               className="object-cover rounded-2xl"
