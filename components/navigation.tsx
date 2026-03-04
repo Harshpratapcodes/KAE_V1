@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 
@@ -24,8 +25,13 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 group">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary via-secondary to-accent flex items-center justify-center text-white font-bold text-lg">
-              KAE
+            <div className="w-12 h-12 relative rounded-lg overflow-hidden bg-white">
+              <Image
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gemini_Generated_Image_4sqzb94sqzb94sqz-3CwAoR4Ip6U2B4hIdlJAB8b7yv9ZM9.png"
+                alt="KAE Logo"
+                fill
+                className="object-contain"
+              />
             </div>
             <span className="hidden sm:inline font-bold text-lg text-foreground group-hover:text-primary transition">
               KAE

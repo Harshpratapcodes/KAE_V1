@@ -63,10 +63,10 @@ export default function Hero() {
           <div className="relative h-[400px] md:h-[500px]">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl blur-2xl"></div>
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gemini_Generated_Image_4sqzb94sqzb94sqz-3CwAoR4Ip6U2B4hIdlJAB8b7yv9ZM9.png"
-              alt="KAE Logo - Change for the Better"
+              src="/engineer-stabilizer.jpg"
+              alt="Engineer with servo-controlled stabilizer machine"
               fill
-              className="object-contain p-8"
+              className="object-cover rounded-2xl"
               priority
             />
           </div>
