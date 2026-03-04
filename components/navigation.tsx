@@ -58,7 +58,7 @@ export default function Navigation() {
               onClick={() => setIsQuoteModalOpen(true)}
               className="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-primary/90 transition"
             >
-              Get Quote
+              Get Free Quote
             </button>
           </div>
 
@@ -89,9 +89,9 @@ export default function Navigation() {
                   setIsQuoteModalOpen(true)
                   setIsOpen(false)
                 }}
-                className="w-full text-center bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-primary/90 transition"
+                className="w-full text-center bg-[#645484] text-white px-6 py-2 rounded-lg font-medium hover:bg-[#564470] transition"
               >
-                Get Quote
+                Get Free Quote
               </button>
             </div>
           </div>
@@ -105,3 +105,4 @@ export default function Navigation() {
     </nav>
   )
 }
+
