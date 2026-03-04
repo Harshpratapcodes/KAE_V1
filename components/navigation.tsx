@@ -25,9 +25,9 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 group">
-            <div className="w-12 h-12 relative rounded-lg overflow-hidden bg-white">
+            <div className="w-10 h-10 relative">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gemini_Generated_Image_4sqzb94sqzb94sqz-3CwAoR4Ip6U2B4hIdlJAB8b7yv9ZM9.png"
+                src="/kae-logo.png"
                 alt="KAE Logo"
                 fill
                 className="object-contain"
