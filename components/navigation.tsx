@@ -4,9 +4,11 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
+import QuoteModal from '@/components/quote-modal'
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false)
 
   const toggleMenu = () => setIsOpen(!isOpen)
 
@@ -52,12 +54,12 @@ export default function Navigation() {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Link
-              href="/contact"
+            <button
+              onClick={() => setIsQuoteModalOpen(true)}
               className="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-primary/90 transition"
             >
               Get Quote
-            </Link>
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -82,16 +84,24 @@ export default function Navigation() {
               </Link>
             ))}
             <div className="px-4 py-2">
-              <Link
-                href="/contact"
-                className="block text-center bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-primary/90 transition"
+              <button
+                onClick={() => {
+                  setIsQuoteModalOpen(true)
+                  setIsOpen(false)
+                }}
+                className="w-full text-center bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-primary/90 transition"
               >
                 Get Quote
-              </Link>
+              </button>
             </div>
           </div>
         )}
       </div>
+
+      <QuoteModal
+        isOpen={isQuoteModalOpen}
+        onClose={() => setIsQuoteModalOpen(false)}
+      />
     </nav>
   )
 }
