@@ -9,7 +9,7 @@ export default function Hero() {
       <div className="absolute top-10 right-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-secondary/5 rounded-full blur-3xl"></div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Content */}
           <div className="space-y-6">
@@ -23,7 +23,7 @@ export default function Hero() {
             </h1>
 
             <p className="text-lg text-muted-foreground max-w-lg text-balance">
-              KAE delivers cutting-edge equipment and automation solutions for manufacturing, power systems, and energy sectors. Trusted by industry leaders globally.
+              In industries where every second matters, compromise isn't an option. KAE provides precision-engineered power solutions—from Servo Stabilizers and UPS systems to solar and electrical panels—eliminating downtime and protecting your valuable machinery.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
@@ -59,14 +59,14 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Image */}
+           {/* Image */}
           <div className="relative h-[400px] md:h-[500px]">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl blur-2xl"></div>
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gemini_Generated_Image_4sqzb94sqzb94sqz-3CwAoR4Ip6U2B4hIdlJAB8b7yv9ZM9.png"
-              alt="KAE Logo - Change for the Better"
+              src="/Hero_Image.png"
+              alt="Engineer with servo-controlled stabilizer machine"
               fill
-              className="object-contain p-8"
+              className="object-cover rounded-2xl"
               priority
             />
           </div>
