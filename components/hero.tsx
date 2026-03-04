@@ -1,8 +1,14 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, Zap } from 'lucide-react'
+import { useState } from 'react'
+import ScheduleVisitModal from '@/components/schedule-visit-modal'
 
 export default function Hero() {
+  const [isScheduleVisitOpen, setIsScheduleVisitOpen] = useState(false)
+
   return (
     <section className="relative min-h-[600px] flex items-center bg-gradient-to-br from-background via-background to-muted overflow-hidden">
       {/* Decorative Elements */}
@@ -34,12 +40,12 @@ export default function Hero() {
                 <span>Explore Products</span>
                 <ArrowRight size={20} />
               </Link>
-              <Link
-                href="/contact"
+              <button
+                onClick={() => setIsScheduleVisitOpen(true)}
                 className="inline-flex items-center justify-center px-8 py-4 rounded-lg font-semibold border-2 border-primary text-primary hover:bg-primary/5 transition"
               >
-                Schedule Demo
-              </Link>
+                Schedule Visit
+              </button>
             </div>
 
             {/* Stats */}
@@ -72,6 +78,11 @@ export default function Hero() {
           </div>
         </div>
       </div>
+
+      <ScheduleVisitModal
+        isOpen={isScheduleVisitOpen}
+        onClose={() => setIsScheduleVisitOpen(false)}
+      />
     </section>
   )
 }
