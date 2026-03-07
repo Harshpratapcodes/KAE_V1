@@ -1,56 +1,134 @@
-import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+'use client'
 
-const products = [
+import Link from 'next/link'
+import { ArrowRight, ChevronDown } from 'lucide-react'
+import { useState } from 'react'
+
+const productCategories = [
   {
-    id: 1,
-    name: 'Advanced Control Systems',
-    category: 'Automation',
-    description: 'Professional control and monitoring solutions for industrial processes with real-time analytics',
-    image: '🎛️',
-    color: 'from-primary'
+    name: 'Voltage Stabilizers',
+    icon: '⚡',
+    description: 'Reliable voltage regulation solutions',
+    subcategories: [
+      {
+        name: 'Servo Controlled Stabilizers',
+        items: [
+          { name: 'Dimmer Type Oil Cooled', desc: 'Oil-cooled servo stabilizers for industrial applications' },
+          { name: 'Dimmer Type Air Cooled', desc: 'Air-cooled servo stabilizers with efficient cooling' }
+        ]
+      }
+    ]
   },
   {
-    id: 2,
-    name: 'Power Distribution Units',
-    category: 'Power Systems',
-    description: 'Industrial-grade power distribution and management equipment for reliable operations',
-    image: '⚡',
-    color: 'from-secondary'
+    name: 'Transformers',
+    icon: '🔄',
+    description: 'Advanced power transformation solutions',
+    subcategories: [
+      {
+        name: 'Transformer Types',
+        items: [
+          { name: 'Step Up Transformer', desc: 'Increases voltage for transmission and distribution' },
+          { name: 'Step Down Transformer', desc: 'Reduces voltage for safe industrial use' },
+          { name: 'Isolation Transformer', desc: 'Provides electrical isolation for safety' }
+        ]
+      }
+    ]
   },
   {
-    id: 3,
-    name: 'Manufacturing Equipment',
-    category: 'Manufacturing',
-    description: 'Precision machinery and production systems for diverse manufacturing applications',
-    image: '🏭',
-    color: 'from-accent'
+    name: 'Electrical Panels',
+    icon: '📊',
+    description: 'Comprehensive panel solutions',
+    subcategories: [
+      {
+        name: 'Panel Types',
+        items: [
+          { name: 'HT Panels', desc: 'High tension panels for power distribution' },
+          { name: 'LT Panels', desc: 'Low tension panels for control and distribution' },
+          { name: 'Power Factor Panels', desc: 'Improves power factor and reduces losses' },
+          { name: 'Distribution Panels', desc: 'Central distribution hub for electrical systems' }
+        ]
+      }
+    ]
   },
   {
-    id: 4,
-    name: 'Energy Solutions',
-    category: 'Energy',
-    description: 'Renewable and conventional energy systems optimized for efficiency and sustainability',
-    image: '🔋',
-    color: 'from-primary'
+    name: 'Power Backup',
+    icon: '🔋',
+    description: 'Uninterrupted power solutions',
+    subcategories: [
+      {
+        name: 'Online UPS Systems',
+        items: [
+          { name: '1 Phase In – 1 Phase Out', desc: 'Single-phase backup systems' },
+          { name: '1 Phase In – 3 Phase Out', desc: 'Converts single-phase input to three-phase output' },
+          { name: '3 Phase In – 3 Phase Out', desc: 'Three-phase to three-phase UPS systems' }
+        ]
+      },
+      {
+        name: 'Other Power Solutions',
+        items: [
+          { name: 'Industrial Inverter', desc: 'DC to AC conversion for industrial use' },
+          { name: 'Batteries', desc: 'High-capacity industrial batteries' }
+        ]
+      }
+    ]
   },
   {
-    id: 5,
-    name: 'Monitoring Systems',
-    category: 'Automation',
-    description: 'Real-time monitoring and data analytics platforms for predictive maintenance',
-    image: '📊',
-    color: 'from-secondary'
-  },
-  {
-    id: 6,
-    name: 'Integration Services',
-    category: 'Services',
-    description: 'Custom integration solutions to seamlessly connect your existing equipment',
-    image: '🔗',
-    color: 'from-accent'
+    name: 'Protection Equipment',
+    icon: '🛡️',
+    description: 'Advanced electrical protection',
+    subcategories: [
+      {
+        name: 'Protection Systems',
+        items: [
+          { name: 'Phase Sequence Corrector', desc: 'Corrects phase sequence for safe operation' }
+        ]
+      }
+    ]
   }
 ]
+
+function CategoryCard({ category }: { category: typeof productCategories[0] }) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <div className="bg-white rounded-lg border border-border overflow-hidden hover:border-primary/50 transition">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full p-6 flex items-start justify-between hover:bg-muted/50 transition"
+      >
+        <div className="flex gap-4 flex-1 text-left">
+          <div className="text-4xl flex-shrink-0">{category.icon}</div>
+          <div>
+            <h3 className="text-xl font-semibold text-foreground">{category.name}</h3>
+            <p className="text-sm text-muted-foreground">{category.description}</p>
+          </div>
+        </div>
+        <ChevronDown 
+          size={20} 
+          className={`flex-shrink-0 text-primary transition-transform ${isOpen ? 'rotate-180' : ''}`}
+        />
+      </button>
+
+      {isOpen && (
+        <div className="border-t border-border bg-muted/30 p-6 space-y-4">
+          {category.subcategories.map((subcat, idx) => (
+            <div key={idx} className="space-y-3">
+              <h4 className="font-medium text-foreground text-sm uppercase tracking-wide">{subcat.name}</h4>
+              <div className="space-y-2 ml-4">
+                {subcat.items.map((item, itemIdx) => (
+                  <div key={itemIdx} className="p-3 bg-white rounded border border-border/50 hover:border-primary/30 transition">
+                    <p className="font-medium text-foreground text-sm">{item.name}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function Products() {
   return (
@@ -63,7 +141,7 @@ export default function Products() {
               Our <span className="text-primary">Product Range</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-lg">
-              Comprehensive solutions designed to meet diverse industrial requirements
+              Comprehensive Industrial Electrical Products including voltage stabilizers, transformers, panels, power backup, and protection equipment
             </p>
           </div>
           <Link
@@ -75,32 +153,10 @@ export default function Products() {
           </Link>
         </div>
 
-        {/* Products Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
-            <Link
-              key={product.id}
-              href={`/products/${product.id}`}
-              className="group bg-white rounded-xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-lg transition"
-            >
-              <div className={`h-40 bg-gradient-to-br ${product.color} to-background/20 flex items-center justify-center text-6xl group-hover:scale-110 transition`}>
-                {product.image}
-              </div>
-              <div className="p-6 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-primary">
-                    {product.category}
-                  </span>
-                  <ArrowRight size={16} className="text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition" />
-                </div>
-                <h3 className="text-xl font-semibold text-foreground group-hover:text-primary transition">
-                  {product.name}
-                </h3>
-                <p className="text-muted-foreground text-sm">
-                  {product.description}
-                </p>
-              </div>
-            </Link>
+        {/* Products Categories Grid */}
+        <div className="grid md:grid-cols-2 gap-6">
+          {productCategories.map((category, idx) => (
+            <CategoryCard key={idx} category={category} />
           ))}
         </div>
       </div>
