@@ -3,95 +3,242 @@
 import Navigation from '@/components/navigation'
 import Footer from '@/components/footer'
 import { useState } from 'react'
-import Link from 'next/link'
-import { Search, Filter, ArrowRight } from 'lucide-react'
+import { ChevronDown, Search } from 'lucide-react'
 
-const allProducts = [
+const productHierarchy = [
   {
-    id: 1,
-    name: 'Advanced Control Systems',
-    category: 'Automation',
-    description: 'Professional control and monitoring solutions for industrial processes with real-time analytics',
-    price: 'Custom Quote',
-    image: '🎛️',
-    specs: ['Real-time monitoring', 'IoT Integration', 'Remote Access', 'Data Analytics']
+    id: 'voltage-stabilizers',
+    name: 'Voltage Stabilizers',
+    icon: '⚡',
+    description: 'Reliable voltage regulation solutions for uninterrupted power supply',
+    subcategories: [
+      {
+        name: 'Servo Controlled Stabilizers',
+        products: [
+          {
+            id: 'dimmer-oil-cooled',
+            name: 'Dimmer Type Oil Cooled',
+            description: 'Oil-cooled servo stabilizers with advanced cooling technology for industrial applications',
+            features: ['High efficiency', 'Oil cooling', 'Servo controlled', 'Industrial grade']
+          },
+          {
+            id: 'dimmer-air-cooled',
+            name: 'Dimmer Type Air Cooled',
+            description: 'Air-cooled servo stabilizers with efficient thermal management',
+            features: ['Air cooling', 'Compact design', 'Servo controlled', 'Eco-friendly']
+          }
+        ]
+      }
+    ]
   },
   {
-    id: 2,
-    name: 'Power Distribution Units',
-    category: 'Power Systems',
-    description: 'Industrial-grade power distribution and management equipment for reliable operations',
-    price: 'Custom Quote',
-    image: '⚡',
-    specs: ['High Reliability', 'Load Balancing', 'Surge Protection', 'Smart Metering']
+    id: 'transformers',
+    name: 'Transformers',
+    icon: '🔄',
+    description: 'Advanced power transformation solutions for various applications',
+    subcategories: [
+      {
+        name: 'Transformer Types',
+        products: [
+          {
+            id: 'step-up-transformer',
+            name: 'Step Up Transformer',
+            description: 'Increases voltage for efficient power transmission and distribution',
+            features: ['Voltage increase', 'High efficiency', 'Long distance transmission', 'Industrial use']
+          },
+          {
+            id: 'step-down-transformer',
+            name: 'Step Down Transformer',
+            description: 'Reduces voltage to safe industrial operational levels',
+            features: ['Voltage reduction', 'Safety features', 'Reliable output', 'Multiple windings']
+          },
+          {
+            id: 'isolation-transformer',
+            name: 'Isolation Transformer',
+            description: 'Provides electrical isolation for enhanced safety and equipment protection',
+            features: ['Electrical isolation', 'Safety certified', 'EMI filtering', 'Ground protection']
+          }
+        ]
+      }
+    ]
   },
   {
-    id: 3,
-    name: 'Manufacturing Equipment',
-    category: 'Manufacturing',
-    description: 'Precision machinery and production systems for diverse manufacturing applications',
-    price: 'Custom Quote',
-    image: '🏭',
-    specs: ['High Precision', 'Automated Control', 'Quality Assurance', 'Customizable']
+    id: 'electrical-panels',
+    name: 'Electrical Panels',
+    icon: '📊',
+    description: 'Comprehensive panel solutions for power distribution and control',
+    subcategories: [
+      {
+        name: 'Panel Types',
+        products: [
+          {
+            id: 'ht-panels',
+            name: 'HT Panels',
+            description: 'High tension panels for primary power distribution',
+            features: ['High voltage handling', 'Safety certified', 'Modular design', 'Professional grade']
+          },
+          {
+            id: 'lt-panels',
+            name: 'LT Panels',
+            description: 'Low tension panels for control and secondary distribution',
+            features: ['Low voltage control', 'Easy maintenance', 'Compact', 'Cost-effective']
+          },
+          {
+            id: 'pf-panels',
+            name: 'Power Factor Panels',
+            description: 'Improves power factor and reduces reactive power losses',
+            features: ['Power factor correction', 'Energy savings', 'Automated control', 'Reduces penalties']
+          },
+          {
+            id: 'distribution-panels',
+            name: 'Distribution Panels',
+            description: 'Central distribution hub for electrical systems',
+            features: ['Multi-outlet', 'Load distribution', 'Protection systems', 'Industrial rated']
+          }
+        ]
+      }
+    ]
   },
   {
-    id: 4,
-    name: 'Energy Solutions',
-    category: 'Energy',
-    description: 'Renewable and conventional energy systems optimized for efficiency and sustainability',
-    price: 'Custom Quote',
-    image: '🔋',
-    specs: ['High Efficiency', 'Eco-Friendly', 'Cost Savings', 'Scalable']
+    id: 'power-backup',
+    name: 'Power Backup',
+    icon: '🔋',
+    description: 'Uninterrupted power solutions for continuous operations',
+    subcategories: [
+      {
+        name: 'Online UPS Systems',
+        products: [
+          {
+            id: 'ups-1p-1p',
+            name: '1 Phase In – 1 Phase Out',
+            description: 'Single-phase to single-phase uninterruptible power supply',
+            features: ['Single phase', 'Compact', 'Cost-effective', 'Residential/small commercial']
+          },
+          {
+            id: 'ups-1p-3p',
+            name: '1 Phase In – 3 Phase Out',
+            description: 'Converts single-phase input to three-phase output for industrial use',
+            features: ['Phase conversion', 'Industrial grade', 'Efficient', 'Scalable']
+          },
+          {
+            id: 'ups-3p-3p',
+            name: '3 Phase In – 3 Phase Out',
+            description: 'Three-phase to three-phase UPS systems for large industrial operations',
+            features: ['Three phase', 'High capacity', 'Enterprise grade', 'Redundancy options']
+          }
+        ]
+      },
+      {
+        name: 'Other Power Solutions',
+        products: [
+          {
+            id: 'industrial-inverter',
+            name: 'Industrial Inverter',
+            description: 'DC to AC conversion systems for industrial and renewable energy applications',
+            features: ['DC to AC conversion', 'High power', 'Efficient', 'Solar integration']
+          },
+          {
+            id: 'batteries',
+            name: 'Batteries',
+            description: 'High-capacity industrial batteries for backup power storage',
+            features: ['High capacity', 'Long lifespan', 'Maintenance-free', 'Multiple configurations']
+          }
+        ]
+      }
+    ]
   },
   {
-    id: 5,
-    name: 'Monitoring Systems',
-    category: 'Automation',
-    description: 'Real-time monitoring and data analytics platforms for predictive maintenance',
-    price: 'Custom Quote',
-    image: '📊',
-    specs: ['Predictive Analytics', 'Alerts & Notifications', 'Historical Data', 'Custom Dashboards']
-  },
-  {
-    id: 6,
-    name: 'Integration Services',
-    category: 'Services',
-    description: 'Custom integration solutions to seamlessly connect your existing equipment',
-    price: 'Contact for Quote',
-    image: '🔗',
-    specs: ['System Integration', 'Custom Protocols', 'Legacy Support', 'Installation Support']
-  },
-  {
-    id: 7,
-    name: 'Maintenance Services',
-    category: 'Services',
-    description: 'Comprehensive preventive and corrective maintenance programs',
-    price: 'Contact for Quote',
-    image: '🔧',
-    specs: ['24/7 Support', 'Spare Parts', 'Training', 'Performance Reports']
-  },
-  {
-    id: 8,
-    name: 'Consulting Services',
-    category: 'Services',
-    description: 'Expert consulting for industrial optimization and modernization',
-    price: 'Contact for Quote',
-    image: '💡',
-    specs: ['Process Optimization', 'System Design', 'ROI Analysis', 'Implementation Plan']
+    id: 'protection-equipment',
+    name: 'Protection Equipment',
+    icon: '🛡️',
+    description: 'Advanced electrical protection for system safety',
+    subcategories: [
+      {
+        name: 'Protection Systems',
+        products: [
+          {
+            id: 'phase-sequence-corrector',
+            name: 'Phase Sequence Corrector',
+            description: 'Corrects phase sequence to prevent equipment damage and ensure safe operation',
+            features: ['Phase correction', 'Automatic detection', 'Safety feature', 'Equipment protection']
+          }
+        ]
+      }
+    ]
   }
 ]
 
-const categories = ['All', 'Automation', 'Power Systems', 'Manufacturing', 'Energy', 'Services']
+function ProductCard({ product }: { product: typeof productHierarchy[0]['subcategories'][0]['products'][0] }) {
+  return (
+    <div className="bg-white border border-border rounded-lg p-6 hover:border-primary/50 hover:shadow-lg transition">
+      <h4 className="text-lg font-semibold text-foreground mb-2">{product.name}</h4>
+      <p className="text-muted-foreground text-sm mb-4">{product.description}</p>
+      <div className="flex flex-wrap gap-2">
+        {product.features.map((feature, idx) => (
+          <span key={idx} className="text-xs px-2 py-1 bg-primary/10 text-primary rounded">
+            {feature}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function CategorySection({ category }: { category: typeof productHierarchy[0] }) {
+  const [isOpen, setIsOpen] = useState(true)
+
+  return (
+    <div className="mb-12">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center gap-4 mb-6 p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg border border-primary/20 hover:border-primary/50 transition group"
+      >
+        <span className="text-4xl">{category.icon}</span>
+        <div className="flex-1 text-left">
+          <h2 className="text-2xl font-bold text-foreground group-hover:text-primary transition">{category.name}</h2>
+          <p className="text-muted-foreground text-sm">{category.description}</p>
+        </div>
+        <ChevronDown 
+          size={24} 
+          className={`text-primary flex-shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+        />
+      </button>
+
+      {isOpen && (
+        <div className="space-y-6 ml-4 pl-4 border-l-2 border-primary/20">
+          {category.subcategories.map((subcat, idx) => (
+            <div key={idx}>
+              <h3 className="text-lg font-semibold text-foreground mb-4 text-primary/80">
+                {subcat.name}
+              </h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                {subcat.products.map(product => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function ProductsPage() {
-  const [selectedCategory, setSelectedCategory] = useState('All')
   const [searchTerm, setSearchTerm] = useState('')
 
-  const filteredProducts = allProducts.filter(product => {
-    const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchTerm.toLowerCase())
-    return matchesCategory && matchesSearch
+  const filteredCategories = productHierarchy.filter(category => {
+    const searchLower = searchTerm.toLowerCase()
+    return (
+      category.name.toLowerCase().includes(searchLower) ||
+      category.description.toLowerCase().includes(searchLower) ||
+      category.subcategories.some(subcat =>
+        subcat.products.some(product =>
+          product.name.toLowerCase().includes(searchLower) ||
+          product.description.toLowerCase().includes(searchLower)
+        )
+      )
+    )
   })
 
   return (
@@ -103,10 +250,10 @@ export default function ProductsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="space-y-4">
             <h1 className="text-4xl sm:text-5xl font-bold text-foreground">
-              Our <span className="text-primary">Product Range</span>
+              Industrial Electrical <span className="text-primary">Products</span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl">
-              Comprehensive industrial solutions designed for performance, reliability, and innovation
+              Comprehensive range of voltage stabilizers, transformers, electrical panels, power backup systems, and protection equipment for industrial applications
             </p>
           </div>
 
@@ -115,7 +262,7 @@ export default function ProductsPage() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
             <input
               type="text"
-              placeholder="Search products..."
+              placeholder="Search products, categories..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-12 pr-4 py-3 rounded-lg border border-border bg-white focus:outline-none focus:ring-2 focus:ring-primary"
@@ -127,68 +274,10 @@ export default function ProductsPage() {
       {/* Products Section */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Filters */}
-          <div className="flex items-center space-x-2 mb-8 overflow-x-auto pb-4">
-            <Filter size={20} className="text-muted-foreground flex-shrink-0" />
-            {categories.map(category => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-2 rounded-full whitespace-nowrap transition font-medium ${
-                  selectedCategory === category
-                    ? 'bg-primary text-white'
-                    : 'bg-muted text-foreground hover:bg-muted/80'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-
-          {/* Products Grid */}
-          {filteredProducts.length > 0 ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProducts.map(product => (
-                <Link
-                  key={product.id}
-                  href={`/products/${product.id}`}
-                  className="group bg-white rounded-xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-xl transition"
-                >
-                  <div className="h-48 bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center text-7xl group-hover:scale-110 transition">
-                    {product.image}
-                  </div>
-                  <div className="p-6 space-y-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-semibold text-primary">
-                        {product.category}
-                      </span>
-                      <ArrowRight size={16} className="text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition mb-2">
-                        {product.name}
-                      </h3>
-                      <p className="text-muted-foreground text-sm">
-                        {product.description}
-                      </p>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {product.specs.slice(0, 2).map((spec, i) => (
-                        <span key={i} className="text-xs px-3 py-1 bg-primary/10 text-primary rounded-full">
-                          {spec}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="pt-4 border-t border-border flex justify-between items-center">
-                      <span className="font-semibold text-primary">
-                        {product.price}
-                      </span>
-                      <button className="text-sm font-medium text-primary hover:text-primary/80 transition">
-                        Inquire
-                      </button>
-                    </div>
-                  </div>
-                </Link>
+          {filteredCategories.length > 0 ? (
+            <div className="space-y-8">
+              {filteredCategories.map(category => (
+                <CategorySection key={category.id} category={category} />
               ))}
             </div>
           ) : (
@@ -197,13 +286,10 @@ export default function ProductsPage() {
                 No products found matching your search
               </p>
               <button
-                onClick={() => {
-                  setSearchTerm('')
-                  setSelectedCategory('All')
-                }}
+                onClick={() => setSearchTerm('')}
                 className="text-primary font-semibold hover:text-primary/80 transition"
               >
-                Clear filters
+                Clear search
               </button>
             </div>
           )}
