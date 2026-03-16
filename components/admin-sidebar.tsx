@@ -27,6 +27,11 @@ const menuItems = [
     icon: LayoutDashboard,
   },
   {
+    label: 'Categories',
+    href: '/admin/categories',
+    icon: FolderOpen,
+  },
+  {
     label: 'Products',
     href: '/admin/products',
     icon: Package,
@@ -44,7 +49,7 @@ const menuItems = [
   {
     label: 'Projects',
     href: '/admin/projects',
-    icon: FolderOpen,
+    icon: Users,
   },
   {
     label: 'Media Library',
