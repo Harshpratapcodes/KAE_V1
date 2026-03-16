@@ -51,15 +51,20 @@ export default function Products() {
           fetch('/api/categories'),
         ])
 
-        const productsData = await productsRes.json()
-        const categoriesData = await categoriesRes.json()
+        const productsResponse = await productsRes.json()
+        const categoriesResponse = await categoriesRes.json()
 
-        setProducts(productsData.slice(0, 6))
+        const productsData = productsResponse.data || productsResponse
+        const categoriesData = categoriesResponse.data || categoriesResponse
+
+        setProducts((Array.isArray(productsData) ? productsData : []).slice(0, 6))
         
         const categoryMap: Record<string, Category> = {}
-        categoriesData.forEach((cat: Category) => {
-          categoryMap[cat.id] = cat
-        })
+        if (Array.isArray(categoriesData)) {
+          categoriesData.forEach((cat: Category) => {
+            categoryMap[cat.id] = cat
+          })
+        }
         setCategories(categoryMap)
       } catch (error) {
         console.error('Failed to fetch products:', error)
