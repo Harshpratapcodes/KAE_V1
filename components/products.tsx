@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 
 interface Product {
@@ -11,6 +12,10 @@ interface Product {
   description: string
   powerRating: string
   phaseType: string
+  images?: Array<{
+    imageUrl: string
+    altText: string
+  }>
 }
 
 interface Category {
@@ -127,6 +132,7 @@ export default function Products() {
             const colorClass = categoryColorMap[product.categoryId] || 'from-primary'
             const icon = categoryIconMap[product.categoryId] || '🏭'
             const categoryName = categories[product.categoryId]?.name || 'Product'
+            const productImage = product.images?.[0]?.imageUrl
 
             return (
               <Link
@@ -134,8 +140,18 @@ export default function Products() {
                 href={`/products/${product.id}`}
                 className="group bg-white rounded-xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-lg transition"
               >
-                <div className={`h-40 bg-gradient-to-br ${colorClass} to-background/20 flex items-center justify-center text-6xl group-hover:scale-110 transition`}>
-                  {icon}
+                <div className={`h-40 bg-gradient-to-br ${colorClass} to-background/20 flex items-center justify-center text-6xl group-hover:scale-110 transition overflow-hidden relative`}>
+                  {productImage ? (
+                    <Image
+                      src={productImage}
+                      alt={product.images?.[0]?.altText || product.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                  ) : (
+                    <span>{icon}</span>
+                  )}
                 </div>
                 <div className="p-6 space-y-3">
                   <div className="flex items-center justify-between">

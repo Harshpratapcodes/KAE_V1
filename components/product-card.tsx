@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 
 interface ProductCardProps {
@@ -20,13 +21,25 @@ export default function ProductCard({
   powerRating,
   image = '⚙️',
 }: ProductCardProps) {
+  const isImageUrl = image && image.startsWith('/');
+  
   return (
     <Link
       href={`/products/${id}`}
       className="group bg-white rounded-xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-xl transition"
     >
-      <div className="h-48 bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center text-6xl group-hover:scale-110 transition">
-        {image}
+      <div className="h-48 bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center overflow-hidden group-hover:scale-110 transition relative">
+        {isImageUrl ? (
+          <Image
+            src={image}
+            alt={name}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        ) : (
+          <span className="text-6xl">{image}</span>
+        )}
       </div>
       <div className="p-6 space-y-4">
         <div className="flex items-center justify-between">

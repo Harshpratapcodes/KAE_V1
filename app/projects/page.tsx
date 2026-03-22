@@ -3,6 +3,7 @@
 import Navigation from '@/components/navigation'
 import Footer from '@/components/footer'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Building2, TrendingUp, Award } from 'lucide-react'
 import { useState } from 'react'
 
@@ -175,8 +176,20 @@ export default function ProjectsPage() {
                 className="group bg-white rounded-xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-xl transition"
               >
                 {/* Image */}
-                <div className="h-48 bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center text-6xl group-hover:scale-110 transition">
-                  {project.image}
+                <div className="h-48 bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center text-6xl group-hover:scale-110 transition overflow-hidden relative">
+                  {typeof project.image === 'string' && !project.image.startsWith('/') ? (
+                    <span>{project.image}</span>
+                  ) : (
+                    project.image && project.image.startsWith('/') && (
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    )
+                  )}
                 </div>
 
                 {/* Content */}
