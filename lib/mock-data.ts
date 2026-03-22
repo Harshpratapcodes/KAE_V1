@@ -645,7 +645,7 @@ export const products: Product[] = [
       {
         id: 'img-1',
         productId: 'prod-1',
-        imageUrl: '/servo-controlled-voltage-stabilizer.jpg',
+        imageUrl: '/products/servo-controlled.png',
         altText: 'Servo Controlled Voltage Stabilizer',
         displayOrder: 1,
       },
@@ -685,7 +685,7 @@ export const products: Product[] = [
       {
         id: 'img-2',
         productId: 'prod-2',
-        imageUrl: '/online-ups.jpg',
+        imageUrl: '/products/online-ups.png',
         altText: 'Online UPS',
         displayOrder: 1,
       },
@@ -724,7 +724,7 @@ export const products: Product[] = [
       {
         id: 'img-3',
         productId: 'prod-3',
-        imageUrl: '/electric-panel.jpg',
+        imageUrl: '/products/electric-panel.png',
         altText: 'Electric Panel',
         displayOrder: 1,
       },
@@ -764,7 +764,7 @@ export const products: Product[] = [
       {
         id: 'img-4',
         productId: 'prod-4',
-        imageUrl: '/industrial-transformer.jpg',
+        imageUrl: '/products/transformer.png',
         altText: 'Industrial Transformer',
         displayOrder: 1,
       },
@@ -803,7 +803,7 @@ export const products: Product[] = [
       {
         id: 'img-5',
         productId: 'prod-5',
-        imageUrl: '/industrial-inverter.jpg',
+        imageUrl: '/products/inverter.png',
         altText: 'Industrial Inverter',
         displayOrder: 1,
       },
@@ -842,7 +842,7 @@ export const products: Product[] = [
       {
         id: 'img-6',
         productId: 'prod-6',
-        imageUrl: '/phase-sequence-corrector.jpg',
+        imageUrl: '/products/phase-sequence-corrector.png',
         altText: 'Phase Sequence Corrector',
         displayOrder: 1,
       },
@@ -880,7 +880,7 @@ export const products: Product[] = [
       {
         id: 'img-7',
         productId: 'prod-7',
-        imageUrl: '/batteries.jpg',
+        imageUrl: '/products/batteries.png',
         altText: 'All Types Batteries',
         displayOrder: 1,
       },
@@ -920,7 +920,7 @@ export const products: Product[] = [
       {
         id: 'img-8',
         productId: 'prod-8',
-        imageUrl: '/air-cooled-servo-controlled-stabilizer.jpg',
+        imageUrl: '/products/servo-air.png',
         altText: 'Air Cooled Servo Stabilizer',
         displayOrder: 1,
       },
@@ -956,7 +956,7 @@ export const products: Product[] = [
       {
         id: 'img-9',
         productId: 'prod-9',
-        imageUrl: '/oil-cooled-servo-stabilizer.jpg',
+        imageUrl: '/products/servo-oil.png',
         altText: 'Oil Cooled Servo Stabilizer',
         displayOrder: 1,
       },
