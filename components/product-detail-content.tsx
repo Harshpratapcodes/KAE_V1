@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, CheckCircle, Share2, Download } from 'lucide-react'
+import Image from 'next/image'
+import { ArrowLeft, ArrowRight, CheckCircle, Share2, Download } from 'lucide-react'
 import Navigation from '@/components/navigation'
 import Footer from '@/components/footer'
 
@@ -21,12 +22,78 @@ interface Product {
   features: string[]
   applications: string[]
   specifications: Record<string, string>
+  extraContent?: ServoExtraContent
+  images?: ProductImage[]
 }
 
 interface Category {
   id: string
   name: string
   subcategories?: Category[]
+}
+
+interface ProductImage {
+  id: string
+  productId: string
+  imageUrl: string
+  altText: string
+  displayOrder: number
+}
+
+interface ServoExtraContent {
+  productCards: {
+    id: string
+    title: string
+    description: string
+    badges: string[]
+  }[]
+  technicalSpecifications: {
+    headers: string[]
+    rows: string[][]
+  }
+  airOilComparison: {
+    headers: string[]
+    rows: string[][]
+  }
+  balancedUnbalancedComparison: {
+    headers: string[]
+    rows: string[][]
+  }
+  availableModels: {
+    title: string
+    items: string[]
+  }[]
+  chooseGuides: {
+    title: string
+    items: string[]
+  }[]
+  mechanismStages: {
+    stage: string
+    title: string
+    description: string
+  }[]
+  protectionInfo: {
+    title: string
+    items: string[]
+  }[]
+  problemSolutions: {
+    problem: string
+    solution: string
+  }[]
+  caseStudies: {
+    title: string
+    challenge: string
+    solution: string
+    results: string[]
+  }[]
+  customizationOptions: string[]
+  installationPhases: {
+    phase: string
+    timing: string
+    steps: string
+    activities: string
+  }[]
+  targetIndustries: string[]
 }
 
 interface Props {
@@ -99,6 +166,33 @@ export default function ProductDetailContent({ productId }: Props) {
     return subcategory?.name || null
   }
 
+  const renderComparisonTable = (headers: string[], rows: string[][]) => (
+    <div className="overflow-x-auto">
+      <table className="w-full">
+        <thead>
+          <tr className="border-b-2 border-border">
+            {headers.map((header, index) => (
+              <th key={index} className="text-left py-4 px-4 font-semibold text-foreground">
+                {header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, rowIndex) => (
+            <tr key={rowIndex} className="border-b border-border hover:bg-muted/50">
+              {row.map((cell, cellIndex) => (
+                <td key={cellIndex} className="py-4 px-4 text-muted-foreground">
+                  {cell}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+
   if (loading) {
     return (
       <main className="min-h-screen bg-background">
@@ -126,6 +220,10 @@ export default function ProductDetailContent({ productId }: Props) {
     )
   }
 
+  const extraContent = product.extraContent
+  const hasProductCards = (extraContent?.productCards?.length ?? 0) > 0
+  const heroImage = product.images?.[0]
+
   return (
     <main className="min-h-screen bg-background">
       <Navigation />
@@ -147,9 +245,25 @@ export default function ProductDetailContent({ productId }: Props) {
       <section className="bg-gradient-to-br from-primary/10 to-secondary/10 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center">
           {/* Image */}
+          <div className="h-80 bg-white rounded-xl border border-border flex items-center justify-center text-8xl shadow-lg relative overflow-hidden">
+            {heroImage ? (
+              <Image
+                src={heroImage.imageUrl}
+                alt={heroImage.altText}
+                fill
+                className="object-contain p-6"
+                sizes="(min-width: 768px) 50vw, 100vw"
+                priority
+              />
+            ) : (
+              <span aria-hidden>Stabilizer</span>
+            )}
+          </div>
+          {/*
           <div className="h-80 bg-white rounded-xl border border-border flex items-center justify-center text-8xl shadow-lg">
             ⚙️
           </div>
+          */}
 
           {/* Info */}
           <div className="space-y-6">
@@ -210,6 +324,38 @@ export default function ProductDetailContent({ productId }: Props) {
                 </p>
               </div>
 
+              {hasProductCards && (
+                <div>
+                  <h2 className="text-3xl font-bold text-foreground mb-6">Product Variants</h2>
+                  <div className="grid sm:grid-cols-2 gap-6">
+                    {(extraContent?.productCards ?? []).map((card) => (
+                      <Link
+                        key={card.id}
+                        href={`/products/${card.id}`}
+                        className="group bg-white border border-border rounded-xl p-6 hover:border-primary/50 hover:shadow-lg transition"
+                      >
+                        <div className="flex items-start justify-between mb-3">
+                          <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition">
+                            {card.title}
+                          </h3>
+                          <ArrowRight size={18} className="text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition" />
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          {card.description}
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {card.badges.map((badge) => (
+                            <span key={badge} className="text-xs px-3 py-1 bg-muted rounded-full text-muted-foreground">
+                              {badge}
+                            </span>
+                          ))}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Key Features */}
               {product.features.length > 0 && (
                 <div>
@@ -248,6 +394,145 @@ export default function ProductDetailContent({ productId }: Props) {
                     </table>
                   </div>
                 </div>
+              )}
+
+              {extraContent && (
+                <>
+                  <div>
+                    <h2 className="text-3xl font-bold text-foreground mb-6">
+                      Technical Specifications (Air-Cooled vs Oil-Cooled)
+                    </h2>
+                    {renderComparisonTable(
+                      extraContent.technicalSpecifications.headers,
+                      extraContent.technicalSpecifications.rows,
+                    )}
+                  </div>
+
+                  <div>
+                    <h2 className="text-3xl font-bold text-foreground mb-6">
+                      Air-Cooled vs Oil-Cooled: Full Comparison
+                    </h2>
+                    {renderComparisonTable(
+                      extraContent.airOilComparison.headers,
+                      extraContent.airOilComparison.rows,
+                    )}
+                  </div>
+
+                  <div>
+                    <h2 className="text-3xl font-bold text-foreground mb-6">
+                      Balanced vs Unbalanced Configuration Comparison
+                    </h2>
+                    {renderComparisonTable(
+                      extraContent.balancedUnbalancedComparison.headers,
+                      extraContent.balancedUnbalancedComparison.rows,
+                    )}
+                  </div>
+
+
+                  <div>
+                    <h2 className="text-3xl font-bold text-foreground mb-6">Choose the Right Cooling</h2>
+                    <div className="grid sm:grid-cols-2 gap-6">
+                      {extraContent.chooseGuides.map((guide) => (
+                        <div key={guide.title} className="bg-white border border-border rounded-xl p-6">
+                          <h3 className="text-lg font-semibold text-foreground mb-4">{guide.title}</h3>
+                          <ul className="space-y-2 list-disc list-inside text-sm text-muted-foreground">
+                            {guide.items.map((item) => (
+                              <li key={item}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h2 className="text-3xl font-bold text-foreground mb-6">
+                      How It Works - Servo Mechanism (8-Stage Cycle)
+                    </h2>
+                    <div className="space-y-4">
+                      {extraContent.mechanismStages.map((stage) => (
+                        <div key={stage.stage} className="flex gap-4 p-4 bg-white border border-border rounded-xl">
+                          <div className="h-10 w-10 rounded-full bg-primary/10 text-primary font-semibold flex items-center justify-center">
+                            {stage.stage}
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-foreground mb-1">{stage.title}</h3>
+                            <p className="text-sm text-muted-foreground">{stage.description}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h2 className="text-3xl font-bold text-foreground mb-6">
+                      Protection, Indications & Standards
+                    </h2>
+                    <div className="grid sm:grid-cols-3 gap-6">
+                      {extraContent.protectionInfo.map((info) => (
+                        <div key={info.title} className="bg-white border border-border rounded-xl p-6">
+                          <h3 className="text-lg font-semibold text-foreground mb-4">{info.title}</h3>
+                          <ul className="space-y-2 list-disc list-inside text-sm text-muted-foreground">
+                            {info.items.map((item) => (
+                              <li key={item}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h2 className="text-3xl font-bold text-foreground mb-6">
+                      Industrial Problems & Solutions (8 Scenarios)
+                    </h2>
+                    <div className="grid lg:grid-cols-2 gap-6">
+                      {extraContent.problemSolutions.map((entry) => (
+                        <div key={entry.problem} className="bg-white border border-border rounded-xl p-6">
+                          <h3 className="text-lg font-semibold text-foreground mb-2">{entry.problem}</h3>
+                          <p className="text-sm text-muted-foreground">{entry.solution}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h2 className="text-3xl font-bold text-foreground mb-6">Case Studies</h2>
+                    <div className="grid lg:grid-cols-3 gap-6">
+                      {extraContent.caseStudies.map((caseStudy) => (
+                        <div key={caseStudy.title} className="bg-white border border-border rounded-xl p-6 space-y-3">
+                          <h3 className="text-lg font-semibold text-foreground">{caseStudy.title}</h3>
+                          <p className="text-sm text-muted-foreground">
+                            <span className="font-medium text-foreground">Challenge:</span> {caseStudy.challenge}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            <span className="font-medium text-foreground">Solution:</span> {caseStudy.solution}
+                          </p>
+                          <ul className="space-y-2 list-disc list-inside text-sm text-muted-foreground">
+                            {caseStudy.results.map((result) => (
+                              <li key={result}>{result}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h2 className="text-3xl font-bold text-foreground mb-6">
+                      Installation & Commissioning Process (4 Phases)
+                    </h2>
+                    {renderComparisonTable(
+                      ['Phase', 'Timing', 'Steps', 'Key Activities'],
+                      extraContent.installationPhases.map((phase) => [
+                        phase.phase,
+                        phase.timing,
+                        phase.steps,
+                        phase.activities,
+                      ]),
+                    )}
+                  </div>
+                </>
               )}
 
               {/* Applications */}

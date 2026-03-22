@@ -42,6 +42,15 @@ export default function Products() {
   const [products, setProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<Record<string, Category>>({})
   const [loading, setLoading] = useState(true)
+  const featuredProductIds = [
+    'prod-1',
+    'prod-4',
+    'prod-3',
+    'prod-2',
+    'prod-5',
+    'prod-6',
+    'prod-7',
+  ]
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,7 +66,12 @@ export default function Products() {
         const productsData = productsResponse.data || productsResponse
         const categoriesData = categoriesResponse.data || categoriesResponse
 
-        setProducts((Array.isArray(productsData) ? productsData : []).slice(0, 6))
+        const productsList = Array.isArray(productsData) ? productsData : []
+        const productMap = new Map(productsList.map((item: Product) => [item.id, item]))
+        const featuredProducts = featuredProductIds
+          .map((id) => productMap.get(id))
+          .filter((item): item is Product => Boolean(item))
+        setProducts(featuredProducts)
         
         const categoryMap: Record<string, Category> = {}
         if (Array.isArray(categoriesData)) {
