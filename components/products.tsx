@@ -146,7 +146,7 @@ export default function Products() {
                       src={productImage}
                       alt={product.images?.[0]?.altText || product.name}
                       fill
-                      className="object-cover"
+                      className="object-contain p-4"
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   ) : (

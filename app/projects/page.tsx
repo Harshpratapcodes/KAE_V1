@@ -185,7 +185,7 @@ export default function ProjectsPage() {
                         src={project.image}
                         alt={project.title}
                         fill
-                        className="object-cover"
+                        className="object-contain p-4"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     )
