@@ -18,6 +18,10 @@ interface Product {
   powerRating: string
   phaseType: 'Single' | 'Three'
   applicationType: string[]
+  images?: Array<{
+    imageUrl: string
+    altText: string
+  }>
 }
 
 interface Category {
@@ -201,6 +205,7 @@ export default function ProductsPage() {
                           description={product.description}
                           price={product.price}
                           powerRating={product.powerRating}
+                          image={product.images?.[0]?.imageUrl}
                         />
                       ))}
                     </div>

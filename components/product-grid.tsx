@@ -7,6 +7,10 @@ interface Product {
   description: string
   price: string
   powerRating: string
+  images?: Array<{
+    imageUrl: string
+    altText: string
+  }>
 }
 
 interface ProductGridProps {
@@ -34,6 +38,7 @@ export default function ProductGrid({ products, categoryNames }: ProductGridProp
           description={product.description}
           price={product.price}
           powerRating={product.powerRating}
+          image={product.images?.[0]?.imageUrl}
         />
       ))}
     </div>
